@@ -4,7 +4,7 @@ import { API_URL } from './utils/constants';
 import { apiProducts } from './utils/data';
 import {CatalogModel} from "./components/models/CatalogModels.ts";
 import {BasketModel} from "./components/models/BasketModel.ts";
-import {OrderModel} from "./components/models/OrderModel.ts";
+import {BuyerModel} from "./components/models/BuyerModel.ts";
 import {LarekApi} from "./components/models/LarekApi.ts";
 
 // ─── CatalogModel ─────────────────────────────────────────
@@ -41,7 +41,7 @@ console.log('После очистки:', basket.getItems());
 
 // ─── OrderModel ───────────────────────────────────────────
 
-const order = new OrderModel();
+const order = new BuyerModel();
 
 order.updateOrder({ address: 'ул. Ленина, 1' });
 order.updateOrder({ payment: 'card' });

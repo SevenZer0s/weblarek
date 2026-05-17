@@ -3,7 +3,7 @@
 import { IBuyer, TPayment } from '../../types';
 import { TValidationErrors } from '../../types';
 
-export class OrderModel {
+export class BuyerModel {
   private payment: TPayment | null = null;
   private address: string = '';
   private phone: string = '';
@@ -18,7 +18,7 @@ export class OrderModel {
 
   getOrder(): IBuyer {
     return {
-      payment: this.payment as TPayment,
+      payment: this.payment,
       address: this.address,
       phone: this.phone,
       email: this.email,
