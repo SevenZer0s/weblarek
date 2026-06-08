@@ -2,6 +2,7 @@
 
 import { IBuyer, TPayment } from '../../types';
 import { TValidationErrors } from '../../types';
+import {IEvents} from "../base/Events.ts";
 
 export class BuyerModel {
   private payment: TPayment | null = null;
@@ -9,11 +10,16 @@ export class BuyerModel {
   private phone: string = '';
   private email: string = '';
 
+  constructor(protected events: IEvents) {
+
+  }
+
   updateOrder(data: Partial<IBuyer>): void {
     if (data.payment !== undefined) this.payment = data.payment;
     if (data.address !== undefined) this.address = data.address;
     if (data.phone !== undefined) this.phone = data.phone;
     if (data.email !== undefined) this.email = data.email;
+    this.events.emit('order:changed', this.getOrder())
   }
 
   getOrder(): IBuyer {
@@ -30,6 +36,7 @@ export class BuyerModel {
     this.address = '';
     this.phone = '';
     this.email = '';
+    this.events.emit('order:changed', this.getOrder())
   }
 
   validate(): TValidationErrors {
