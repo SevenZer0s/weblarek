@@ -1,21 +1,19 @@
-import { Card } from './Card';
-import { IEvents } from '../base/Events';
+import { Card, ICardActions } from './Card';
 
 export class PreviewCard extends Card {
   private button: HTMLButtonElement;
-  private description: HTMLElement;
+  private _description: HTMLElement;
 
-  constructor(container: HTMLElement, protected events: IEvents, id: string) {
+  constructor(container: HTMLElement, actions?: ICardActions) {
     super(container);
     this.button = container.querySelector('.card__button')!;
-    this.description = container.querySelector('.card__text')!;
-    this.button.addEventListener('click', (evt) => {
-      evt.stopPropagation();
-      this.events.emit('card:toggleBasket', { id });
-    });
+    this._description = container.querySelector('.card__text')!;
+    if (actions?.onClick) {
+      this.button.addEventListener('click', actions.onClick);
+    }
   }
 
-  set descriptionText(value: string) { if (this.description) this.description.textContent = value; }
+  set description(value: string) { if (this._description) this._description.textContent = value; }
   set buttonText(value: string) { if (this.button) this.button.textContent = value; }
   set buttonDisabled(value: boolean) { if (this.button) this.button.disabled = value; }
 }

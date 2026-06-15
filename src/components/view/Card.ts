@@ -1,7 +1,10 @@
 import { Component } from '../base/Component';
 import { IProduct } from '../../types';
-import { categoryMap } from '../../utils/constants';
-import { CDN_URL } from '../../utils/constants';
+import { categoryMap, CDN_URL } from '../../utils/constants';
+
+export interface ICardActions {
+  onClick: (event: MouseEvent) => void;
+}
 
 export class Card extends Component<IProduct> {
   protected _title: HTMLElement;

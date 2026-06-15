@@ -1,20 +1,16 @@
-import { Card } from './Card';
-import { IEvents } from '../base/Events';
+import { Card, ICardActions } from './Card';
 
 export class BasketCard extends Card {
   private indexElement: HTMLElement;
   private deleteButton: HTMLButtonElement;
 
-  constructor(container: HTMLElement, protected events: IEvents, id: string) {
+  constructor(container: HTMLElement, actions?: ICardActions) {
     super(container);
-    // Добавляем ! после querySelector
     this.indexElement = container.querySelector('.basket__item-index')!;
     this.deleteButton = container.querySelector('.basket__item-delete')!;
-
-    this.deleteButton.addEventListener('click', (evt) => {
-      evt.stopPropagation();
-      this.events.emit('basket:remove', { id });
-    });
+    if (actions?.onClick) {
+      this.deleteButton.addEventListener('click', actions.onClick);
+    }
   }
 
   set index(value: number) {
