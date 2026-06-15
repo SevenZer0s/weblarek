@@ -1,5 +1,7 @@
 import { Form } from './Form';
 import { IEvents } from '../base/Events';
+import { ensureElement } from '../../utils/utils';
+import { TPayment } from '../../types';
 
 export class OrderForm extends Form<{ address: string; payment: string }> {
   private cardButton: HTMLButtonElement;
@@ -8,20 +10,27 @@ export class OrderForm extends Form<{ address: string; payment: string }> {
 
   constructor(container: HTMLFormElement, events: IEvents) {
     super(container, events);
-    this.cardButton = container.querySelector('button[name="card"]')!;
-    this.cashButton = container.querySelector('button[name="cash"]')!;
-    this.addressInput = container.querySelector('input[name="address"]')!;
+    this.cardButton = ensureElement<HTMLButtonElement>('button[name="card"]', container);
+    this.cashButton = ensureElement<HTMLButtonElement>('button[name="cash"]', container);
+    this.addressInput = ensureElement<HTMLInputElement>('input[name="address"]', container);
+
     this.cardButton.addEventListener('click', () => {
       this.events.emit('order.payment:change', { payment: 'online' });
-      this.cardButton.classList.add('button_alt-active');
-      this.cashButton.classList.remove('button_alt-active');
     });
     this.cashButton.addEventListener('click', () => {
       this.events.emit('order.payment:change', { payment: 'upon receipt' });
-      this.cashButton.classList.add('button_alt-active');
-      this.cardButton.classList.remove('button_alt-active');
     });
   }
 
-  set address(value: string) { if (this.addressInput) this.addressInput.value = value; }
+  set address(value: string) {
+    this.addressInput.value = value;
+  }
+
+  // Подсвечивает кнопку выбранного способа оплаты.
+  // Вызывается из Presenter при обработке order:changed, чтобы
+  // синхронизировать UI с состоянием модели.
+  set selectedPayment(value: TPayment | null) {
+    this.cardButton.classList.toggle('button_alt-active', value === 'online');
+    this.cashButton.classList.toggle('button_alt-active', value === 'upon receipt');
+  }
 }
