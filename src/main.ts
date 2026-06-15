@@ -78,11 +78,7 @@ events.on('card:toggleBasket', ({ id }: { id: string }) => {
   } else {
     if (product) basketModel.addItem(product);
   }
-  // Переоткрываем превью чтобы обновить текст кнопки
-  const previewProduct = catalogModel.getPreview();
-  if (previewProduct && previewProduct.id === id) {
-    catalogModel.setPreview(previewProduct);
-  }
+  modal.close();
 });
 
 events.on('basket:changed', () => {
