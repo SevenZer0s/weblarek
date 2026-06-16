@@ -28,7 +28,7 @@ export class CatalogModel {
 
   setPreview(product: IProduct): void {
     this.selectedProduct = product;
-    this.events.emit('preview:changed', product) // event warn!!
+    this.events.emit('preview:changed');
   }
 
   getPreview(): IProduct | null {

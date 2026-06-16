@@ -1,6 +1,7 @@
-import { Card, ICardActions } from './Card';
+import { ProductCard } from './ProductCard';
+import { ICardActions } from './Card';
 
-export class PreviewCard extends Card {
+export class PreviewCard extends ProductCard {
   private button: HTMLButtonElement;
   private _description: HTMLElement;
 
